@@ -1,5 +1,5 @@
 
-const { Client, Intents } = require("discord.js");
+const { Client, Intents, RichPresenceAssets, MessageActionRow } = require("discord.js");
 const prefix = "cf.";
 require("dotenv").config();
 // require("./db/mongoose");
@@ -236,7 +236,14 @@ client.on("messageCreate", async (message) => {
           } else if (message.content === prefix+"help") {
             message.reply("Just do cf.q and cf.score and get lucky")
           } else if (message.content === prefix+"score") {
-            message.reply("You have "+userTrophies+" points")
+            message.reply("You have "+userTrophies+" points and your win rate is "+wins/losses)
+          } else if (message.content === prefix+"lb6699696") {
+         db.collection("users").find().forEach(async (user) => {
+          // console.log(user)
+           console.log(client.users.cache.get(user.discordID))
+          // message.reply("Name: "+client.users.cache.get(user.username)  )
+         })
+
           }
 
 
