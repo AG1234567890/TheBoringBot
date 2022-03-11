@@ -96,28 +96,36 @@ client.on("messageCreate", async (message) => {
         
                     // DM 
         
-                    try {
+
         
                         playerOne = client.users.cache.get(player1)
                            
                         playerTwo = client.users.cache.get(player2)     
-                        client.users.cache.get(player1).send("You found a match against "+playerTwo.username+"#"+playerTwo.discriminator);
-                        client.users.cache.get(player2).send("You found a match against "+playerOne.username+"#"+playerOne.discriminator);
-                    } catch (e) {
+                        client.users.cache.get(player1).send("You found a match against "+playerTwo.username+"#"+playerTwo.discriminator).catch((e) => {
+                          console.log("The bot tried to dm "+player1+" but got blocked")
+                        });
+                        client.users.cache.get(player2).send("You found a match against "+playerOne.username+"#"+playerOne.discriminator).catch((e) => {
+                          console.log("The bot tried to dm "+player2+" but got blocked")
+                        });
+
                         console.log("User has blocked the bot")
-                    }
+                    
                     
                     //randomize + score
                     n = Math.floor(Math.random() * (1 - 0 + 1)) + 0; // 
  
                     if(n==0){
                       //player 1 wins
-                       try {
+               
         
                         playerOne = client.users.cache.get(player1)
                         playerTwo = client.users.cache.get(player2)     
-                        client.users.cache.get(player1).send("You won the coinflip against "+playerTwo.username+"#"+playerTwo.discriminator+" and won 5 points");
-                        client.users.cache.get(player2).send("You lost the coinflip against "+playerOne.username+"#"+playerOne.discriminator+" and lost 4 points");
+                        client.users.cache.get(player1).send("You won the coinflip against "+playerTwo.username+"#"+playerTwo.discriminator+" and won 5 points").catch((e) => {
+                          console.log("User got blocked by some guy")
+                        });
+                        client.users.cache.get(player2).send("You lost the coinflip against "+playerOne.username+"#"+playerOne.discriminator+" and lost 4 points").catch((e) => {
+                          console.log("MONGUS")
+                        });
 
                         db.collection("users").updateOne({
                           discordID: player1
@@ -154,17 +162,19 @@ client.on("messageCreate", async (message) => {
 
 
 
-                    } catch (e) {
-                        console.log("User has blocked the bot")
-                    }
+                 
                     } else if (n==1){
-                      try {
+                 
         
                         playerOne = client.users.cache.get(player1)
                         playerTwo = client.users.cache.get(player2)     
-                        client.users.cache.get(player1).send("You lost the coinflip against "+playerTwo.username+"#"+playerTwo.discriminator+" and lost 4 points");
+                        client.users.cache.get(player1).send("You lost the coinflip against "+playerTwo.username+"#"+playerTwo.discriminator+" and lost 4 points").catch((e) => {
+                          console.log(e)
+                        });
                         
-                        client.users.cache.get(player2).send("You won the coinflip against "+playerOne.username+"#"+playerOne.discriminator+" and gained 5 points");
+                        client.users.cache.get(player2).send("You won the coinflip against "+playerOne.username+"#"+playerOne.discriminator+" and gained 5 points").catch((e) => {
+                          console.log(e)
+                        });
 
                         db.collection("users").updateOne({
                           discordID: player2
@@ -200,9 +210,7 @@ client.on("messageCreate", async (message) => {
                           }
                         })
 
-                    } catch (e) {
-                        console.log("User has blocked the bot")
-                    }
+                  
                     }
         
         
